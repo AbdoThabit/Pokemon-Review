@@ -1,22 +1,21 @@
 package com.pokemonreview.api.DTOs;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@NoArgsConstructor  
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PokemonResponse {
-    private List<PokemonDto> content;
+public class ReviewResponse {
+    private List<ReviewDto> content;
     private int pageNo;
     private int pageSize;
     private long totalElements;
     private int totalPages;
     private boolean last;
 }
-
