@@ -10,7 +10,7 @@ import com.pokemonreview.api.Models.Review;
 public class ReviewMapper {
 public static ReviewDto toReviewDto(Review review) {
     PokemonDto pokemonDto = new PokemonDto(review.getPokemon().getId(), review.getPokemon().getName(), review.getPokemon().getType());
-    return new ReviewDto(review.getId(), review.getTitle(), review.getContent(), review.getStart(), pokemonDto);
+    return new ReviewDto(review.getId(), review.getTitle(), review.getContent(), review.getStars(), pokemonDto.getId());
 }
 public static List<ReviewDto> toReviewDtoList(List<Review> reviews){
     return reviews.stream().map(ReviewMapper::toReviewDto).collect(Collectors.toList());

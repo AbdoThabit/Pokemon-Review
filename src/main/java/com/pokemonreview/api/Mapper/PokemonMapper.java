@@ -10,7 +10,7 @@ public class PokemonMapper {
 public static PokemonDto toPokemonDto(Pokemon pokemon){
     PokemonDto pokemonDto = new PokemonDto(pokemon.getId(), pokemon.getName(), pokemon.getType());
     pokemon.getReviews().forEach(review -> pokemonDto.addReview(
-        new ReviewDto(review.getTitle(), review.getContent(), review.getStart())));
+        new ReviewDto(review.getTitle(), review.getContent(), review.getStars(), pokemon.getId())));
     return pokemonDto;
 }
 

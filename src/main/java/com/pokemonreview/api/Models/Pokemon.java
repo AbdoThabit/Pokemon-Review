@@ -26,4 +26,9 @@ public class Pokemon {
     
     @OneToMany(mappedBy = "pokemon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<Review>();
+    // we use set review because review is owning side of the relationship (it has the foreign key)
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setPokemon(this);
+    }   
 }

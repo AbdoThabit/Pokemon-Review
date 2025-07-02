@@ -11,15 +11,20 @@ import org.springframework.stereotype.Service;
 
 import com.pokemonreview.api.DTOs.ReviewDto;
 import com.pokemonreview.api.DTOs.ReviewResponse;
+import com.pokemonreview.api.Exceptions.PokemonNotFoundException;
 import com.pokemonreview.api.Exceptions.ReviewNotFoundException;
 import com.pokemonreview.api.Mapper.ReviewMapper;
+import com.pokemonreview.api.Models.Pokemon;
 import com.pokemonreview.api.Models.Review;
+import com.pokemonreview.api.Repositories.PokemonRepository;
 import com.pokemonreview.api.Repositories.ReviewRepository;
 
 @Service
 public class ReviewServices implements IReviewServices {
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private PokemonRepository pokemonRepository;
 
     @Override
     public ReviewResponse getAllReviews(int pageNo, int pageSize) {
@@ -50,10 +55,13 @@ public class ReviewServices implements IReviewServices {
 
     @Override
     public ReviewDto createReview(ReviewDto reviewDto) {
+        Pokemon pokemon = pokemonRepository.findById(reviewDto.getPokemonId())
+                    .orElseThrow(() -> new PokemonNotFoundException("Pokemon not found for the review"));
         Review review = new Review();
         review.setTitle(reviewDto.getTitle());
         review.setContent(reviewDto.getContent());
-        review.setStart(reviewDto.getStart());
+        review.setStars(reviewDto.getStars());
+        review.setPokemon(pokemon);
 
         Review newReview = reviewRepository.save(review);
         return ReviewMapper.toReviewDto(newReview);
@@ -65,7 +73,7 @@ public class ReviewServices implements IReviewServices {
                 .orElseThrow(() -> new ReviewNotFoundException("Review could not be updated"));
         review.setTitle(reviewDto.getTitle());
         review.setContent(reviewDto.getContent());
-        review.setStart(reviewDto.getStart());
+        review.setStars(reviewDto.getStars());
         return ReviewMapper.toReviewDto(reviewRepository.save(review));
     }
 
@@ -75,5 +83,14 @@ public class ReviewServices implements IReviewServices {
                 .orElseThrow(() -> new ReviewNotFoundException("Review could not be deleted"));
         reviewRepository.deleteById(id);
         return ReviewMapper.toReviewDto(review);
+    }
+
+    @Override
+    public List<ReviewDto> getReviewByPokemonId(int pokemonId) {
+        List<Review> reviews = reviewRepository.findByPokemonId(pokemonId);
+    
+        return reviews.stream()
+                .map(ReviewMapper::toReviewDto)
+                .collect(Collectors.toList());
     }
 }

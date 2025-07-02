@@ -10,12 +10,14 @@ public class ReviewDto {
     private int id;
     private String title;
     private String content;
-    private int start;
-    private PokemonDto pokemon ;
+    private int stars;
+    private int pokemonId;
     
-    public ReviewDto(String title, String content, int start) {
+    
+    public ReviewDto(String title, String content, int stars, int pokemonId) {
         this.title = title;
         this.content = content;
-        this.start = start;
+        this.stars = stars;
+        this.pokemonId = pokemonId;
     }
 }

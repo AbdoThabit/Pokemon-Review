@@ -1,5 +1,7 @@
 package com.pokemonreview.api.Controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,10 @@ public class ReviewController {
         @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ) {
         return ResponseEntity.ok(reviewServices.getAllReviews(pageNo, pageSize));
+    }
+    @GetMapping("get-reviews-by-pokemon-id/{id}")
+    public ResponseEntity<List<ReviewDto>> getReviewsByPokemonId(@PathVariable int pokemonId) {
+        return ResponseEntity.ok(reviewServices.getReviewByPokemonId(pokemonId));
     }
 
     @GetMapping("get-review-by-id/{id}")
