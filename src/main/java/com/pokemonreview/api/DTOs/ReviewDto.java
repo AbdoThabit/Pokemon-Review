@@ -20,4 +20,6 @@ public class ReviewDto {
         this.stars = stars;
         this.pokemonId = pokemonId;
     }
+
+
 }
